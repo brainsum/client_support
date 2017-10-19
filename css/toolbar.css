@@ -1,0 +1,12 @@
+.client-support-toolbar-tab.toolbar-tab {
+  float: right !important;
+}
+
+.toolbar-bar .toolbar-icon-client-support:before {
+  background-image: url(../images/questionmark-disc-acacac.svg);
+}
+
+.toolbar-bar .toolbar-icon-client-support:active:before,
+.toolbar-bar .toolbar-icon-client-support.is-active:before {
+  background-image: url(../images/questionmark-disc-ffffff.svg);
+}

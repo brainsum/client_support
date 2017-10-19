@@ -1,0 +1,9 @@
+name: Client Support - Contact Form
+type: module
+description: Basic 'Contact Form' integration for the Client Support module.
+core: 8.x
+package: Support
+
+dependencies:
+  - drupal:client_support
+  - drupal:contact

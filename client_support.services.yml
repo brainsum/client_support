@@ -1,0 +1,4 @@
+services:
+  plugin.manager.support_integration:
+    class: Drupal\client_support\Component\SupportIntegrationManager
+    parent: default_plugin_manager

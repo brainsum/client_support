@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies: {  }
+id: support_form
+label: 'Support Form'
+recipients:
+  - webmaster@example.com
+reply: ''
+weight: 0
+message: 'Thank you for sending feedback!'
+redirect: ''

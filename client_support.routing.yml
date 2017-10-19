@@ -1,0 +1,16 @@
+client_support.toolbar:
+  path: '/client-support'
+  defaults:
+    _controller: '\Drupal\client_support\Controller\RedirectController::redirect'
+  requirements:
+    # Only for testing. TBD.
+    _access: 'TRUE'
+
+client_support.settings_from:
+  path: '/client-support-settings'
+  defaults:
+    _form: '\Drupal\client_support\Form\SettingsForm'
+    _title: 'Support Settings'
+  requirements:
+    # Only for testing. TBD.
+    _access: 'TRUE'
