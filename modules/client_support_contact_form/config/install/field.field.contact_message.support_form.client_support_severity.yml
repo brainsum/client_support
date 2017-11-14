@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - contact.form.support_form
+    - field.storage.contact_message.client_support_severity
+  module:
+    - options
+id: contact_message.support_form.client_support_severity
+field_name: client_support_severity
+entity_type: contact_message
+bundle: support_form
+label: Severity
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_integer

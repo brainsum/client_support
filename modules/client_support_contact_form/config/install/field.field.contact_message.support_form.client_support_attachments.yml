@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - contact.form.support_form
+    - field.storage.contact_message.client_support_attachments
+  module:
+    - file
+id: contact_message.support_form.client_support_attachments
+field_name: client_support_attachments
+entity_type: contact_message
+bundle: support_form
+label: 'Issue attachments'
+description: 'Images or files relevant to the issue. Can be screenshots about the issue, screen captures on how to reproduce, etc.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'zip rar csv xml bmp gif jpg jpeg png tif tiff avi mp4 mov txt doc docx pdf odt'
+  max_filesize: 256MB
+  description_field: true
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file

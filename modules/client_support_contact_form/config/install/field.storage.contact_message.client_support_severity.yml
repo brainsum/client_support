@@ -1,0 +1,32 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - contact
+    - options
+id: contact_message.client_support_severity
+field_name: client_support_severity
+entity_type: contact_message
+type: list_integer
+settings:
+  allowed_values:
+    -
+      value: 0
+      label: Low
+    -
+      value: 1
+      label: Medium
+    -
+      value: 2
+      label: High
+    -
+      value: 3
+      label: Critical
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
