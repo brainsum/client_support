@@ -7,3 +7,6 @@ package: Support
 dependencies:
   - drupal:client_support
   - drupal:contact
+  - drupal:file
+  - drupal:link
+  - drupal:options
