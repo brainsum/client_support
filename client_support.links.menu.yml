@@ -1,0 +1,12 @@
+# Settings
+system.admin_config.client_support:
+  title: 'Client Support'
+  parent: system.admin_config
+  description: 'Configure Client Support.'
+  route_name: 'client_support.settings'
+
+client_support.settings_form:
+  title: 'Client Support Settings'
+  parent: system.admin_config.client_support
+  route_name: 'client_support.settings_form'
+  description: 'Client Support settings.'
