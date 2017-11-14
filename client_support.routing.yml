@@ -1,7 +1,7 @@
 client_support.toolbar:
   path: '/client-support'
   defaults:
-    _controller: '\Drupal\client_support\Controller\RedirectController::redirect'
+    _controller: '\Drupal\client_support\Controller\RedirectController::redirectHandler'
   requirements:
     _permission: 'access client support'
 
