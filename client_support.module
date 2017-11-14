@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Module files.
@@ -10,18 +11,6 @@ use Drupal\client_support\Handler\ToolbarHandler;
  * Implements hook_toolbar().
  */
 function client_support_toolbar() {
-  /** @var \Drupal\client_support\Component\SupportIntegrationManager $manager */
-  $manager = \Drupal::service('plugin.manager.support_integration');
-  $plugins = $manager->getDefinitions();
-
-  $currentPlugin = \Drupal::configFactory()->get('client_support.settings')->get('settings.integration_plugin');
-
-  // Don't display anything in the toolbar if there are no plugins,
-  // or there are, but none are selected.
-  if (empty($plugins) || NULL === $currentPlugin) {
-    return [];
-  }
-
   return \Drupal::service('class_resolver')
     ->getInstanceFromDefinition(ToolbarHandler::class)
     ->toolbar();

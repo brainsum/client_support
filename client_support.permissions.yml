@@ -1,0 +1,7 @@
+access client support:
+  title: 'Access client support'
+  description: 'Allows access for the Client Support route. Note, users must have access for the target route as well.'
+
+administer client support:
+  title: 'Administer client support'
+  descriptions: 'Allows administering client support settings.'

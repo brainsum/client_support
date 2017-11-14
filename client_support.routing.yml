@@ -3,8 +3,7 @@ client_support.toolbar:
   defaults:
     _controller: '\Drupal\client_support\Controller\RedirectController::redirect'
   requirements:
-    # Only for testing. TBD.
-    _access: 'TRUE'
+    _permission: 'access client support'
 
 client_support.settings_from:
   path: '/client-support-settings'
@@ -12,5 +11,6 @@ client_support.settings_from:
     _form: '\Drupal\client_support\Form\SettingsForm'
     _title: 'Support Settings'
   requirements:
-    # Only for testing. TBD.
-    _access: 'TRUE'
+    _permission: 'administer client support'
+  options:
+    _admin_route: TRUE

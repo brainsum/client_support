@@ -2,6 +2,7 @@
 
 namespace Drupal\client_support\Handler;
 
+use Drupal\client_support\Component\SupportIntegrationManager;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
@@ -12,6 +13,13 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Class ToolbarHandler.
+ *
+ * Implements logic for rendering the toolbar item for the module.
+ *
+ * @package Drupal\client_support\Handler
+ */
 class ToolbarHandler implements ContainerInjectionInterface {
 
 
@@ -32,19 +40,18 @@ class ToolbarHandler implements ContainerInjectionInterface {
   protected $account;
 
   /**
-   * ToolbarHandler constructor.
+   * Config for the module.
    *
-   * @param \Drupal\Core\Menu\MenuLinkTreeInterface $menu_link_tree
-   *   The menu link tree service.
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
-   *   The config factory.
-   * @param \Drupal\Core\Session\AccountProxyInterface $account
-   *   The current user.
+   * @var \Drupal\Core\Config\ImmutableConfig
    */
-  public function __construct(MenuLinkTreeInterface $menu_link_tree, ConfigFactoryInterface $config_factory, AccountProxyInterface $account) {
-    $this->menuLinkTree = $menu_link_tree;
-    $this->account = $account;
-  }
+  protected $supportSettings;
+
+  /**
+   * The plugin manager for the Client Support module.
+   *
+   * @var \Drupal\client_support\Component\SupportIntegrationManager
+   */
+  protected $supportPluginManager;
 
   /**
    * {@inheritdoc}
@@ -53,8 +60,33 @@ class ToolbarHandler implements ContainerInjectionInterface {
     return new static(
       $container->get('toolbar.menu_tree'),
       $container->get('config.factory'),
-      $container->get('current_user')
+      $container->get('current_user'),
+      $container->get('plugin.manager.support_integration')
     );
+  }
+
+  /**
+   * ToolbarHandler constructor.
+   *
+   * @param \Drupal\Core\Menu\MenuLinkTreeInterface $menuLinkTree
+   *   The menu link tree service.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
+   *   The config factory.
+   * @param \Drupal\Core\Session\AccountProxyInterface $account
+   *   The current user.
+   * @param \Drupal\client_support\Component\SupportIntegrationManager $supportPluginManager
+   *   The plugin manager for the Client Support module.
+   */
+  public function __construct(
+    MenuLinkTreeInterface $menuLinkTree,
+    ConfigFactoryInterface $configFactory,
+    AccountProxyInterface $account,
+    SupportIntegrationManager $supportPluginManager
+  ) {
+    $this->menuLinkTree = $menuLinkTree;
+    $this->account = $account;
+    $this->supportSettings = $configFactory->get('client_support.settings');
+    $this->supportPluginManager = $supportPluginManager;
   }
 
   /**
@@ -66,6 +98,13 @@ class ToolbarHandler implements ContainerInjectionInterface {
    * @see hook_toolbar()
    */
   public function toolbar() {
+    // Don't display anything in the toolbar if there are no plugins,
+    // or there are, but none are selected.
+    // The user also must have proper access permissions.
+    if (!$this->access()) {
+      return [];
+    }
+
     $items['client_support'] = [
       '#type' => 'toolbar_item',
       '#weight' => 999,
@@ -120,6 +159,25 @@ class ToolbarHandler implements ContainerInjectionInterface {
     CacheableMetadata::createFromRenderArray($build)->applyTo($build);
 
     return $build;
+  }
+
+  /**
+   * Access check for the handler.
+   *
+   * The module has to be set up. This means that plugins must exist
+   * and a plugin has to be set.
+   * The user must have proper permissions.
+   *
+   * @return bool
+   *   TRUE, if the user can access it, FALSE otherwise.
+   */
+  protected function access() {
+    $plugins = $this->supportPluginManager->getDefinitions();
+    $currentPlugin = $this->supportSettings->get('settings.integration_plugin');
+
+    return
+      !(empty($plugins) || NULL === $currentPlugin)
+      && $this->account->hasPermission('access client support');
   }
 
 }
