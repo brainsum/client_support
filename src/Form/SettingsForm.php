@@ -2,8 +2,11 @@
 
 namespace Drupal\client_support\Form;
 
+use Drupal\client_support\Component\SupportIntegrationManager;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a settings form for the module.
@@ -11,6 +14,40 @@ use Drupal\Core\Form\FormStateInterface;
  * @package Drupal\client_support\Form
  */
 class SettingsForm extends ConfigFormBase {
+
+  /**
+   * The plugin manager for the Client Support module.
+   *
+   * @var \Drupal\client_support\Component\SupportIntegrationManager
+   */
+  protected $supportPluginManager;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('config.factory'),
+      $container->get('plugin.manager.support_integration')
+    );
+  }
+
+  /**
+   * SettingsForm constructor.
+   *
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
+   *   Config factory.
+   * @param \Drupal\client_support\Component\SupportIntegrationManager $supportPluginManager
+   *   The plugin manager for the Client Support module.
+   */
+  public function __construct(
+    ConfigFactoryInterface $configFactory,
+    SupportIntegrationManager $supportPluginManager
+  ) {
+    parent::__construct($configFactory);
+
+    $this->supportPluginManager = $supportPluginManager;
+  }
 
   /**
    * Gets the configuration names that will be editable.
@@ -39,9 +76,7 @@ class SettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    /** @var \Drupal\client_support\Component\SupportIntegrationManager $manager */
-    $manager = \Drupal::service('plugin.manager.support_integration');
-    $plugins = $manager->getDefinitions();
+    $plugins = $this->supportPluginManager->getDefinitions();
 
     $options = [];
 
@@ -58,7 +93,6 @@ class SettingsForm extends ConfigFormBase {
       '#default_value' => empty($default) ? NULL : $default,
       '#required' => TRUE,
     ];
-
 
     return parent::buildForm($form, $form_state);
   }
