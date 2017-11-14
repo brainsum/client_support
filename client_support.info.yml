@@ -3,3 +3,4 @@ type: module
 description: Allows users to contact support.
 core: 8.x
 package: Support
+configure: client_support.settings_form
