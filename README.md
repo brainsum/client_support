@@ -10,7 +10,8 @@ the admin toolbar by default.
 form, a node, or anything with a route.
 * Implement a plugin under the
 ```Drupal\your_module\Plugin\SupportIntegration``` namespace extending
-the ```Drupal\client_support\Component\SupportIntegrationBase``` class.
+the ```Drupal\client_support\Component\SupportIntegrationBase``` class,
+using the ```SupportIntegration``` annotation.
 * Go to ```admin/config/client-support/client-support-settings``` and
 set your plugin.
 

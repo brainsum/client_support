@@ -110,10 +110,10 @@ class ToolbarHandler implements ContainerInjectionInterface {
       '#weight' => 999,
       'tab' => [
         '#type' => 'link',
-        '#title' => $this->t('Client support'),
+        '#title' => $this->t('Support'),
         '#url' => Url::fromRoute('client_support.toolbar'),
         '#attributes' => [
-          'title' => $this->t('Client support'),
+          'title' => $this->t('Support'),
           'class' => [
             'toolbar-icon',
             'toolbar-icon-client-support',
@@ -138,6 +138,8 @@ class ToolbarHandler implements ContainerInjectionInterface {
 
   /**
    * Lazy builder callback for the menu toolbar.
+   *
+   * Not yet used.
    *
    * @return array
    *   The renderable array rapresentation of the devel menu.
