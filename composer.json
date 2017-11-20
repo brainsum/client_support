@@ -1,0 +1,13 @@
+{
+    "name": "drupal/client_support",
+    "license": "GPL-2.0+",
+    "description": "Drupal module for Client Support functionality.",
+    "type": "drupal-module",
+    "authors": [
+        {
+            "name": "mhavelant",
+            "email": "mhavelant@brainsum.com"
+        }
+    ],
+    "require": {}
+}
